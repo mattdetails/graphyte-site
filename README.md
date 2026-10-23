@@ -17,3 +17,10 @@ Pin to a tag, not `main`, so the live site doesn't change when the repo does. Af
 Tuning: `duration` in the file controls the feel. 1.1 is gentle. Try 0.8 for snappier, 1.4 for floatier.
 
 Known interaction: the home hero has its own scroll animation ("sticky content"). If the two fight, turn the hero animation off in Relume.
+
+## Head code
+
+`head-code.html` is the complete block for Relume's Site settings → Custom code → Head: the smooth-scroll
+script tag plus the site's CSS overrides. Edit it here, then paste the whole file into Relume. Code embed
+sections run in a sandboxed iframe, so anything that has to touch the page (CSS, page-level JS) goes in the
+head, not an embed.
