@@ -3,7 +3,7 @@
  * Loads Lenis from jsDelivr and starts it. Plain script, no build step.
  *
  * Add to the site's <head> or end of <body> with:
- *   <script src="https://cdn.jsdelivr.net/gh/USER/REPO@TAG/site/smooth-scroll.js" defer></script>
+ *   <script src="https://cdn.jsdelivr.net/gh/mattdetails/graphyte-site@v1.0.1/smooth-scroll.js" defer></script>
  *
  * Behaviour:
  * - Does nothing if the visitor has "reduce motion" switched on.

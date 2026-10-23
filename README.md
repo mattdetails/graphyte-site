@@ -9,10 +9,10 @@ Smooth scrolling with [Lenis](https://github.com/darkroomengineering/lenis). Res
 Add to the site's custom head code:
 
 ```html
-<script src="https://cdn.jsdelivr.net/gh/USER/REPO@v1.0.0/site/smooth-scroll.js" defer></script>
+<script src="https://cdn.jsdelivr.net/gh/mattdetails/graphyte-site@v1.0.1/smooth-scroll.js" defer></script>
 ```
 
-Replace `USER/REPO` with the GitHub repo and `v1.0.0` with the tag you pushed. Pin to a tag, not `main`, so the live site doesn't change when the repo does. After a change: bump the tag, push it, update the tag in the script tag.
+Pin to a tag, not `main`, so the live site doesn't change when the repo does. After a change: bump the tag, push it, update the tag in the script tag.
 
 Tuning: `duration` in the file controls the feel. 1.1 is gentle. Try 0.8 for snappier, 1.4 for floatier.
 
