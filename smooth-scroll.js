@@ -3,7 +3,7 @@
  * Loads Lenis from jsDelivr and starts it. Plain script, no build step.
  *
  * Add to the site's <head> or end of <body> with:
- *   <script src="https://cdn.jsdelivr.net/gh/mattdetails/graphyte-site@v1.0.1/smooth-scroll.js" defer></script>
+ *   <script src="https://cdn.jsdelivr.net/gh/mattdetails/graphyte-site@v1.0.2/smooth-scroll.js" defer></script>
  *
  * Behaviour:
  * - Does nothing if the visitor has "reduce motion" switched on.
@@ -16,6 +16,20 @@
   if (window.lenis) return;
 
   var LENIS_SRC = 'https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js';
+
+  // Lenis's recommended CSS. The first rule matters most: Relume sets
+  // scroll-behavior: smooth on <html>, and if that stays on, the browser
+  // smooths every frame Lenis already smoothed, which feels laggy and rubbery.
+  var css = [
+    'html.lenis { scroll-behavior: auto !important; }',
+    'html.lenis, html.lenis body { height: auto; }',
+    '.lenis:not(.lenis-autoToggle).lenis-stopped { overflow: clip; }',
+    '.lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }',
+    '.lenis.lenis-smooth iframe { pointer-events: none; }'
+  ].join('\n');
+  var style = document.createElement('style');
+  style.textContent = css;
+  document.head.appendChild(style);
 
   function start() {
     if (typeof window.Lenis !== 'function') return;
