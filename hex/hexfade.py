@@ -45,15 +45,22 @@ def hexagon(cx, cy, r):
 
 
 def generate(w, h, mode="corner", theme="light", cell=44.0, gap=0.14,
-             fade_start=0.12, fade_end=0.62, accent_until=0.12, wave_amp=0.12, wave_len=0.9):
+             fade_start=0.12, fade_end=0.62, accent_until=0.12, wave_amp=0.12, wave_len=0.9,
+             origin="br", ground=None, colour=None):
     """
     cell         centre-to-centre spacing in px
     gap          fraction of the cell left as ground between tiles at full size
     fade_start   distance (as a fraction of the diagonal) where cells begin shrinking
     fade_end     distance where cells have vanished
     accent_until on the light theme, cells closer than this get the accent colour
+    origin       which corner the bloom grows from: br, tr, bl, tl
+    ground/colour override the theme's ground and cell colours (hex strings)
     """
-    pal = PALETTE[theme]
+    pal = dict(PALETTE[theme])
+    if ground: pal["ground"] = ground
+    if colour: pal["cell"] = colour
+    ox = w if origin[1] == "r" else 0
+    oy = h if origin[0] == "b" else 0
     diag = math.hypot(w, h)
     row_h = cell * math.sqrt(3) / 2
     full_r = (cell / 2) * (1 - gap) / math.cos(math.radians(30))  # radius so flats nearly touch
@@ -61,7 +68,7 @@ def generate(w, h, mode="corner", theme="light", cell=44.0, gap=0.14,
     def distance(x, y):
         if mode == "edge":
             return (h - y) / h  # 0 at the bottom edge, 1 at the top
-        d = math.hypot(w - x, h - y) / diag  # 0 at bottom-right corner
+        d = math.hypot(ox - x, oy - y) / diag  # 0 at the bloom corner
         if mode == "wave":
             # bend the contour with a slow sine along the diagonal
             along = (x / w + (h - y) / h) / 2
@@ -119,6 +126,10 @@ def main():
     ap.add_argument("--fade-start", type=float, default=0.12)
     ap.add_argument("--fade-end", type=float, default=0.62)
     ap.add_argument("--accent-until", type=float, default=0.12)
+    ap.add_argument("--origin", default="br", choices=["br", "tr", "bl", "tl"])
+    ap.add_argument("--gap", type=float, default=0.14)
+    ap.add_argument("--ground")
+    ap.add_argument("--colour")
     ap.add_argument("-o", "--out", default="hexfade.svg")
     ap.add_argument("--outdir", default="out")
     a = ap.parse_args()
@@ -133,8 +144,9 @@ def main():
             print(path)
         return
 
-    svg = generate(a.w, a.h, a.mode, a.theme, a.cell, fade_start=a.fade_start,
-                   fade_end=a.fade_end, accent_until=a.accent_until)
+    svg = generate(a.w, a.h, a.mode, a.theme, a.cell, gap=a.gap, fade_start=a.fade_start,
+                   fade_end=a.fade_end, accent_until=a.accent_until, origin=a.origin,
+                   ground=a.ground, colour=a.colour)
     with open(a.out, "w") as f:
         f.write(svg)
     print(a.out)
