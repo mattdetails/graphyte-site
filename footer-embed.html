@@ -1,0 +1,144 @@
+<!--
+  Graphyte footer: paste this whole file into a Relume code embed at the bottom of the page.
+  Styling comes from the site's design tokens, delivered by theme-sync.js in the head code.
+  The values under :root below are fallbacks that match the site today; the sync overrides them live.
+-->
+<style>
+  :root {
+    /* Fallbacks (the site's tokens as of Oct 2026). theme-sync.js replaces these with the live values. */
+    --scheme3-background: #080707; --scheme3-background-secondary: #1A1817; --scheme3-heading: #ffffff;
+    --scheme3-text: rgba(255,255,255,.7); --scheme3-accent: #FF5521; --scheme3-border: rgba(255,255,255,.2);
+    --font-family-heading: "Instrument Sans", system-ui, sans-serif; --font-family-body: "Manrope", system-ui, sans-serif;
+    --heading-h2-size: 2.5rem; --heading-h2-line-height: 1.2; --heading-weight: 500; --heading-letter-spacing: -.03em; --heading-transform: none;
+    --text-medium-size: 1.125rem; --text-regular-size: 1rem; --text-small-size: .875rem; --text-regular-line-height: 1.5; --text-weight: 400; --text-weight-strong: 500;
+    --button-font: "Instrument Sans", system-ui, sans-serif; --button-font-size: 1rem; --button-weight: 600; --button-radius: 4px; --button-border-width: 1px;
+    --button-padding-horizontal: 1rem; --button-padding-vertical: .5rem; --button-transform: none; --button-letter-spacing: 0em;
+    --radius-large: 8px; --divider-width: 1px; --container-large: 80rem; --page-padding: 2.5rem; --card-padding-xlarge: 3rem;
+    --spacing-3: .75rem; --spacing-5: 1.25rem; --spacing-8: 2rem; --spacing-10: 2.5rem; --gap-element-small: .75rem; --gap-element-horizontal-medium: 1.25rem;
+
+    /* The footer's own roles, mapped onto the scheme it lives in (Scheme 3). Change the scheme here if the footer moves. */
+    --gf-bg: var(--scheme3-background);
+    --gf-heading: var(--scheme3-heading);
+    --gf-text: var(--scheme3-text);
+    --gf-border: var(--scheme3-border);
+    --gf-card: var(--scheme3-accent);
+    --gf-card-ink: var(--scheme3-heading);
+    --gf-cell: color-mix(in srgb, var(--gf-card) 76%, var(--gf-bg));
+  }
+  html, body { margin: 0; padding: 0; background: var(--gf-bg); }
+  * { box-sizing: border-box; }
+
+  .gf { background: var(--gf-bg); color: var(--gf-text); font-family: var(--font-family-body); font-size: var(--text-regular-size); line-height: var(--text-regular-line-height); font-weight: var(--text-weight); padding: var(--spacing-10) var(--page-padding); }
+  .gf a { color: inherit; text-decoration: none; }
+  .gf .wrap { max-width: var(--container-large); margin: 0 auto; }
+
+  /* The orange card, hex bloom drawn inline from the tokens */
+  .gf .card { position: relative; overflow: hidden; isolation: isolate; background: var(--gf-card); color: var(--gf-card-ink); border-radius: var(--radius-large); padding: var(--card-padding-xlarge); display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: var(--spacing-8); align-items: center; }
+  .gf .card .hex { position: absolute; inset: 0; z-index: -1; pointer-events: none; }
+  .gf .card .hex svg { width: 100%; height: 100%; display: block; }
+  .gf .card .hex path { fill: var(--gf-cell); }
+  .gf .card h2 { font-family: var(--font-family-heading); font-size: var(--heading-h2-size); line-height: var(--heading-h2-line-height); font-weight: var(--heading-weight); letter-spacing: var(--heading-letter-spacing); text-transform: var(--heading-transform); color: var(--gf-card-ink); margin: 0 0 var(--gap-element-small); max-width: 16ch; text-wrap: balance; }
+  .gf .card p { margin: 0; font-size: var(--text-medium-size); max-width: 42ch; }
+  .gf .btn { display: inline-block; background: var(--gf-bg); color: var(--gf-heading); border: var(--button-border-width) solid var(--gf-bg); font-family: var(--button-font); font-size: var(--button-font-size); font-weight: var(--button-weight); text-transform: var(--button-transform); letter-spacing: var(--button-letter-spacing); padding: var(--button-padding-vertical) var(--button-padding-horizontal); border-radius: var(--button-radius); white-space: nowrap; transition: opacity .15s ease; }
+  .gf .btn:hover { opacity: .85; }
+
+  /* Links: one centred row under the card */
+  .gf .links { display: flex; justify-content: center; flex-wrap: wrap; gap: var(--spacing-3) var(--spacing-8); margin-top: var(--spacing-10); }
+  .gf .links a { color: var(--gf-text); font-weight: var(--text-weight-strong); transition: color .15s ease; }
+  .gf .links a:hover { color: var(--gf-heading); }
+
+  /* Bottom row */
+  .gf .bottom { display: flex; justify-content: space-between; align-items: center; gap: var(--gap-element-horizontal-medium); flex-wrap: wrap; margin-top: var(--spacing-10); padding-top: var(--spacing-5); border-top: var(--divider-width) solid var(--gf-border); font-size: var(--text-small-size); }
+  .gf .logo svg { height: 30px; width: auto; display: block; }
+  .gf .logo .mark-ring { stroke: var(--gf-card); }
+  .gf .logo .mark-fill { fill: var(--gf-heading); }
+
+  @media (max-width: 760px) {
+    .gf .card { grid-template-columns: 1fr; }
+    .gf .bottom { justify-content: center; text-align: center; }
+  }
+</style>
+
+<footer class="gf">
+  <div class="wrap">
+    <div class="card">
+      <div class="hex" aria-hidden="true"></div>
+      <div>
+        <h2>Have a project in mind?</h2>
+        <p>Tell us what you need and we'll take it from there.</p>
+      </div>
+      <a class="btn" href="/contact" target="_top">Let's chat</a>
+    </div>
+
+    <nav class="links" aria-label="Footer">
+      <a href="/#sc-project-list-section-vertical" target="_top">Work</a>
+      <a href="/#9d8a5a389b694f72a06dad4222f8797b" target="_top">Services</a>
+      <a href="/#f31ca42f-d937-400e-a2cb-e48a1e64fc0a" target="_top">About</a>
+      <a href="/contact" target="_top">Contact</a>
+    </nav>
+
+    <div class="bottom">
+      <a class="logo" href="/" target="_top" aria-label="Graphyte home">
+        <svg viewBox="0 0 656 152" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Graphyte">
+          <mask id="gf-ring" fill="white"><path d="M63.3787 140.763C98.3818 140.763 126.757 112.362 126.757 77.327C126.757 42.2921 98.3818 13.8906 63.3787 13.8906C28.3756 13.8906 0 42.2921 0 77.327C0 112.362 28.3756 140.763 63.3787 140.763Z"/></mask>
+          <path class="mark-ring" d="M126.757 77.327C126.757 112.362 98.3818 140.763 63.3787 140.763C28.3756 140.763 0 112.362 0 77.327C0 42.2921 28.3756 13.8906 63.3787 13.8906C98.3818 13.8906 126.757 42.2921 126.757 77.327Z" stroke-width="23.0339" mask="url(#gf-ring)"/>
+          <path class="mark-fill" d="M83.4002 45.373L69.7778 58.6289H56.1532V98.3955L42.5286 111.651V45.3741L83.4002 45.373ZM83.4002 78.5122V111.651L69.7778 100.605V89.5589L56.1532 78.5131L83.4002 78.5122Z" fill-rule="evenodd" clip-rule="evenodd"/>
+          <path class="mark-fill" d="M205.462 117.126C181.098 117.126 164.206 99.6203 164.206 76.0746C164.206 52.6312 181.507 35.023 205.462 35.023C224.811 35.2278 237.403 45.4651 242.521 57.5451L224.299 65.0183C221.637 58.9783 214.471 53.7573 205.974 53.7573C194.508 53.7573 184.681 62.9708 184.681 76.4841C184.681 89.9973 194.304 98.3919 205.872 98.3919C215.29 98.3919 223.48 93.478 225.323 85.2881H208.534V71.3654H245.9C247.742 101.463 229.111 117.126 205.462 117.126ZM255.052 116V58.1593H270.203L271.534 65.8373H272.046C274.605 59.6949 279.109 58.1593 284.945 58.1593H286.583V77.6102H282.897C277.471 77.6102 273.991 80.9885 273.991 88.5641V116H255.052ZM319.483 117.126C303.205 117.126 291.535 104.637 291.535 87.2332C291.535 69.5227 303.308 57.0332 319.483 57.0332C327.672 57.0332 334.634 60.5139 338.114 65.4278H338.524L339.036 58.1593H355.825V116H339.036L338.524 108.834H338.114C334.327 114.055 327.365 117.126 319.483 117.126ZM323.578 100.439C331.358 100.439 336.784 94.7064 336.784 87.1308C336.784 79.6576 331.358 73.8224 323.578 73.8224C316.411 73.8224 310.474 79.76 310.474 87.1308C310.474 94.7064 316.411 100.439 323.578 100.439ZM365.618 138.522V58.1593H383.431L383.841 66.042H384.353C387.629 61.0258 393.976 57.0332 402.78 57.0332C418.34 57.0332 429.909 69.6251 429.909 87.0285C429.909 104.841 417.624 117.126 402.882 117.126C394.999 117.126 388.243 114.055 385.172 109.653H384.557V138.522H365.618ZM397.866 100.337C405.134 100.337 410.97 94.3993 410.97 87.1308C410.97 79.5553 405.134 73.72 397.866 73.72C390.188 73.72 384.557 79.5553 384.557 87.1308C384.557 94.5017 390.188 100.337 397.866 100.337ZM437.347 116V36.1491H456.389V64.1993L456.901 64.3017C459.46 60.1044 464.271 57.0332 470.823 57.0332C481.572 57.0332 488.534 64.4041 488.534 79.3505V116H469.492V82.9336C469.492 76.3817 467.036 74.2319 463.043 74.2319C458.948 74.2319 456.389 77.5078 456.389 83.2407V116H437.347ZM503.07 138.522L511.157 115.181L491.502 58.1593H511.874L520.985 90.3044L529.892 58.1593H550.161L522.726 138.522H503.07ZM562.242 116V75.1532H554.564V58.1593H562.242V36.1491H581.284V58.1593H589.064V75.1532H581.284V116H562.242ZM623.812 117.126C605.589 117.126 592.895 104.432 592.895 87.438C592.895 70.5464 604.77 57.0332 623.402 57.0332C642.546 57.0332 654.933 71.4678 653.193 91.9424H611.527C612.858 99.0061 618.795 102.077 624.426 102.077C629.237 102.077 633.23 99.8251 635.277 96.0373L651.555 100.439C647.46 110.779 636.711 117.126 623.812 117.126ZM611.629 81.1932H635.584C634.254 75.9722 629.647 72.082 623.709 72.082C617.874 72.082 613.062 75.8698 611.629 81.1932Z"/>
+        </svg>
+      </a>
+      <span>© <span id="gf-year">2026</span> Graphyte. All rights reserved.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  (function () {
+    var root = document.documentElement;
+
+    /* 1. Design tokens from the page, via theme-sync.js in the head. Ask, then apply whatever arrives. */
+    addEventListener('message', function (e) {
+      var d = e.data; if (!d || d.type !== 'graphyte:theme') return;
+      Object.keys(d.tokens || {}).forEach(function (k) { root.style.setProperty(k, d.tokens[k]); });
+      (d.fonts || []).forEach(function (href) {
+        if (document.querySelector('link[href="' + href + '"]')) return;
+        var l = document.createElement('link'); l.rel = 'stylesheet'; l.href = href; document.head.appendChild(l);
+      });
+      size();
+    });
+    try { parent.postMessage({ type: 'graphyte:theme-request' }, '*'); } catch (e) {}
+
+    /* 2. Links: inside the embed frame, relative hrefs would resolve against the frame, so resolve them
+          against the page that embeds us. Keeps working when the domain changes. */
+    var base = '';
+    try { base = new URL(document.referrer).origin + '/'; } catch (e) {}
+    if (base) Array.prototype.forEach.call(document.querySelectorAll('a[href^="/"]'), function (a) { a.href = base + a.getAttribute('href').replace(/^\//, ''); });
+    document.getElementById('gf-year').textContent = new Date().getFullYear();
+
+    /* 3. Hex bloom, drawn from the top-right corner of the card. Same lattice as the hero and generator.
+          Fill comes from CSS (var(--gf-cell)), so it follows the tokens. */
+    function hexSVG(w, h) {
+      var cell = 30, rowH = cell * Math.sqrt(3) / 2, fullR = (cell / 2) * 0.86 / Math.cos(Math.PI / 6), diag = Math.hypot(w, h), fe = 0.72, d = 'M';
+      function ease(t) { t = Math.max(0, Math.min(1, t)); return t * t * (3 - 2 * t); }
+      for (var j = -1; j < h / rowH + 3; j++) {
+        var cy = h - j * rowH, off = j % 2 ? cell / 2 : 0;
+        for (var i = -1; i < w / cell + 3; i++) {
+          var cx = i * cell + off, sc = 1 - ease(Math.hypot(w - cx, cy) / diag / fe); if (sc < 0.035) continue;
+          var r = fullR * sc;
+          for (var a = 0; a < 6; a++) { var t = Math.PI / 180 * (60 * a - 30); d += (a ? 'L' : 'M') + (cx + r * Math.cos(t)).toFixed(1) + ',' + (cy + r * Math.sin(t)).toFixed(1); }
+          d += 'z';
+        }
+      }
+      return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ' + w + ' ' + h + '" preserveAspectRatio="xMaxYMin slice"><path d="' + d.replace(/^M/, '') + '"/></svg>';
+    }
+    document.querySelector('.gf .card .hex').innerHTML = hexSVG(1400, 520);
+
+    /* 4. Tell Relume how tall we are, so the embed frame fits the footer exactly. */
+    function size() {
+      // Measure the footer itself: the document's scrollHeight can never be shorter than the frame, so it would never shrink.
+      var h = Math.ceil(document.querySelector('.gf').getBoundingClientRect().height);
+      try { parent.postMessage({ type: 'relume-embed:size', height: h }, '*'); } catch (e) {}
+    }
+    size(); addEventListener('load', size); addEventListener('resize', size);
+    if (window.ResizeObserver) new ResizeObserver(size).observe(document.body);
+  })();
+</script>

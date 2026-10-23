@@ -24,3 +24,11 @@ Known interaction: the home hero has its own scroll animation ("sticky content")
 site's custom CSS. Edit them here, then paste each whole file into its field in Relume. Code embed
 sections run in a sandboxed iframe, so anything that has to touch the page (CSS, page-level JS) goes in the
 head, not an embed.
+
+## Footer embed and theme sync
+
+The footer is a Relume code embed: paste `footer-embed.html` whole into an embed section at the bottom of
+the page. Embeds run in a sandboxed iframe, so `theme-sync.js` (loaded from the head) posts the site's CSS
+custom properties and font links into every embed, and the footer applies them to its own `:root`. Change
+the design system in Relume and the footer follows. The hex bloom is drawn inside the embed from the same
+tokens.

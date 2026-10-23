@@ -7,16 +7,3 @@
     transform: scaleY(-1);
   }
 }
-
-/* Stamp CTA: hex bloom inside the orange card above the footer */
-.page-section:has(+ #sc-footer-grouped-menu-horizontal-menu-left) .card {
-  background-image: url("https://cdn.jsdelivr.net/gh/mattdetails/graphyte-site@v1.0.4/hex/out/footer-stamp.svg");
-  background-size: cover;
-  background-position: top right;
-  background-repeat: no-repeat;
-}
-.page-section:has(+ #sc-footer-grouped-menu-horizontal-menu-left) .card .button {
-  background: #1A1817;
-  border-color: #1A1817;
-  color: #F6EFE4;
-}
