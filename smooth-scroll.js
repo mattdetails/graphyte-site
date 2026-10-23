@@ -3,12 +3,14 @@
  * Loads Lenis from jsDelivr and starts it. Plain script, no build step.
  *
  * Add to the site's <head> or end of <body> with:
- *   <script src="https://cdn.jsdelivr.net/gh/mattdetails/graphyte-site@v1.0.2/smooth-scroll.js" defer></script>
+ *   <script src="https://cdn.jsdelivr.net/gh/mattdetails/graphyte-site@v1.0.3/smooth-scroll.js" defer></script>
  *
  * Behaviour:
  * - Does nothing if the visitor has "reduce motion" switched on.
  * - Touch devices keep native scrolling (Lenis default), so phones feel normal.
- * - In-page anchor links (href="#section") scroll smoothly instead of jumping.
+ * - Same-page anchor links (Relume renders them as https://site/#section) scroll smoothly
+ *   instead of jumping, and the offset is measured from the fixed navbar.
+ * - Landing on the page with a hash in the URL glides to that section from the top.
  * - Exposes window.lenis so other scripts can call lenis.scrollTo(...).
  */
 (function () {
@@ -48,17 +50,47 @@
     }
     requestAnimationFrame(raf);
 
-    // Smooth in-page anchors
+    // Room for the fixed navbar, measured from the page rather than guessed.
+    function navOffset() {
+      var nav = document.querySelector('[id^="sc-navbar"], nav');
+      var h = nav ? nav.getBoundingClientRect().height : 0;
+      return -(h ? h + 16 : 80);
+    }
+
+    function targetFor(hash) {
+      if (!hash || hash.length < 2) return null;
+      var id;
+      try { id = decodeURIComponent(hash.slice(1)); } catch (err) { id = hash.slice(1); }
+      return document.getElementById(id);
+    }
+
+    // Smooth in-page anchors. Relume renders section links as full URLs
+    // (https://site/#section-id), so match on the resolved URL, not on href="#...".
     document.addEventListener('click', function (e) {
-      var a = e.target.closest && e.target.closest('a[href^="#"]');
-      if (!a) return;
-      var id = a.getAttribute('href').slice(1);
-      if (!id) return;
-      var target = document.getElementById(id);
+      if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      var a = e.target.closest && e.target.closest('a[href]');
+      if (!a || a.target === '_blank') return;
+      var url;
+      try { url = new URL(a.getAttribute('href'), location.href); } catch (err) { return; }
+      if (url.origin !== location.origin || url.pathname !== location.pathname || !url.hash) return;
+      var target = targetFor(url.hash);
       if (!target) return;
       e.preventDefault();
-      lenis.scrollTo(target, { offset: -80 }); // leave room for the fixed navbar
-    });
+      lenis.scrollTo(target, { offset: navOffset() });
+      if (history.pushState) history.pushState(null, '', url.hash);
+    }, true);
+
+    // Arriving from another page with a hash (/contact -> /#services): the browser has already
+    // jumped, so start from the top and glide to the section instead.
+    if (location.hash && targetFor(location.hash)) {
+      if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+      window.scrollTo(0, 0);
+      requestAnimationFrame(function () {
+        requestAnimationFrame(function () {
+          lenis.scrollTo(targetFor(location.hash), { offset: navOffset(), duration: 1.4 });
+        });
+      });
+    }
   }
 
   var s = document.createElement('script');

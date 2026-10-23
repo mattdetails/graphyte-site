@@ -25,7 +25,7 @@ import os
 
 PALETTE = {
     "dark": {"ground": "#120502", "cell": "#FF5521", "accent": None},
-    "light": {"ground": "#F6EFE4", "cell": "#1A1817", "accent": "#FF5521"},
+    "light": {"ground": "#F7F5F3", "cell": "#1A1817", "accent": "#FF5521"},  # matches the site's scheme-1 ground
 }
 
 
