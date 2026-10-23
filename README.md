@@ -20,7 +20,7 @@ Known interaction: the home hero has its own scroll animation ("sticky content")
 
 ## Head code
 
-`head-code.html` is the complete block for Relume's Site settings → Custom code → Head: the smooth-scroll
-script tag plus the site's CSS overrides. Edit it here, then paste the whole file into Relume. Code embed
+`head-code.html` is the script block for Relume's Site settings → Custom code → Head, and `custom.css` is the
+site's custom CSS. Edit them here, then paste each whole file into its field in Relume. Code embed
 sections run in a sandboxed iframe, so anything that has to touch the page (CSS, page-level JS) goes in the
 head, not an embed.
