@@ -9,7 +9,7 @@
     --scheme3-background: #080707; --scheme3-background-secondary: #1A1817; --scheme3-heading: #ffffff;
     --scheme3-text: rgba(255,255,255,.7); --scheme3-accent: #FF5521; --scheme3-border: rgba(255,255,255,.2);
     --font-family-heading: "Instrument Sans", system-ui, sans-serif; --font-family-body: "Manrope", system-ui, sans-serif;
-    --heading-h2-size: 2.5rem; --heading-h2-line-height: 1.2; --heading-weight: 500; --heading-letter-spacing: -.03em; --heading-transform: none;
+    --heading-h2-size: 2.5rem; --heading-h2-line-height: 1.2; --heading-h3-size: 2rem; --heading-h3-line-height: 1.2; --heading-weight: 500; --heading-letter-spacing: -.03em; --heading-transform: none;
     --text-medium-size: 1.125rem; --text-regular-size: 1rem; --text-small-size: .875rem; --text-regular-line-height: 1.5; --text-weight: 400; --text-weight-strong: 500;
     --button-font: "Instrument Sans", system-ui, sans-serif; --button-font-size: 1rem; --button-weight: 600; --button-radius: 4px; --button-border-width: 1px;
     --button-padding-horizontal: 1rem; --button-padding-vertical: .5rem; --button-transform: none; --button-letter-spacing: 0em;
@@ -54,7 +54,9 @@
   .gf .logo .mark-fill { fill: var(--gf-heading); }
 
   @media (max-width: 760px) {
-    .gf .card { grid-template-columns: 1fr; }
+    /* Phones: normal card padding, and the heading one step down so it sits on two lines */
+    .gf .card { grid-template-columns: 1fr; padding: var(--card-padding-xlarge); }
+    .gf .card h2 { font-size: var(--heading-h3-size); line-height: var(--heading-h3-line-height); }
     .gf .bottom { justify-content: center; text-align: center; }
   }
 </style>
