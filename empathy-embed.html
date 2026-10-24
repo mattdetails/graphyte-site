@@ -1,0 +1,55 @@
+<style>
+  :root {
+    /* Fallbacks; theme-sync.js replaces these with the live tokens. */
+    --scheme1-background: #F7F5F3; --scheme3-background: #080707; --scheme3-heading: #ffffff;
+    --font-family-heading: "Instrument Sans", system-ui, sans-serif;
+    --heading-h2-size: 2.5rem; --heading-h2-line-height: 1.2; --heading-weight: 500; --heading-letter-spacing: -.03em;
+    --heading-transform: none; --heading-max-width: 48rem;
+    --radius-large: 8px; --container-large: 80rem; --page-padding: 2.5rem; --section-padding-large: 6rem;
+    --card-padding-xlarge: 3rem; --spacing-8: 2rem;
+
+    /* Roles: the empathy section's Scheme 3 background as a card on the page's Scheme 1 ground. */
+    --em-ground: var(--scheme1-background);
+    --em-card: var(--scheme3-background);
+    --em-heading: var(--scheme3-heading);
+  }
+  html, body { margin: 0; padding: 0; background: var(--em-ground); }
+  * { box-sizing: border-box; }
+  .em { padding: var(--spacing-8) var(--page-padding); }
+  .em .card {
+    max-width: var(--container-large); margin: 0 auto; background: var(--em-card); border-radius: var(--radius-large);
+    padding: var(--section-padding-large) var(--card-padding-xlarge); text-align: center;
+  }
+  .em h2 {
+    margin: 0 auto; max-width: var(--heading-max-width); color: var(--em-heading);
+    font-family: var(--font-family-heading); font-size: var(--heading-h2-size); line-height: var(--heading-h2-line-height);
+    font-weight: var(--heading-weight); letter-spacing: var(--heading-letter-spacing); text-transform: var(--heading-transform);
+    text-wrap: balance;
+  }
+  .em h2 strong { font-weight: 700; }
+</style>
+
+<div class="em">
+  <div class="card">
+    <h2>Designing for <strong>humans</strong> with <strong>empathy</strong> and <strong>perspective</strong>.</h2>
+  </div>
+</div>
+
+<script>
+  (function () {
+    var root = document.documentElement, box = document.querySelector('.em');
+    addEventListener('message', function (e) {
+      var d = e.data; if (!d || d.type !== 'graphyte:theme') return;
+      Object.keys(d.tokens || {}).forEach(function (k) { root.style.setProperty(k, d.tokens[k]); });
+      (d.fonts || []).forEach(function (href) {
+        if (document.querySelector('link[href="' + href + '"]')) return;
+        var l = document.createElement('link'); l.rel = 'stylesheet'; l.href = href; document.head.appendChild(l);
+      });
+      size();
+    });
+    try { parent.postMessage({ type: 'graphyte:theme-request' }, '*'); } catch (e) {}
+    function size() { try { parent.postMessage({ type: 'relume-embed:size', height: Math.ceil(box.getBoundingClientRect().height) }, '*'); } catch (e) {} }
+    size(); addEventListener('load', size); addEventListener('resize', size);
+    if (window.ResizeObserver) new ResizeObserver(size).observe(box);
+  })();
+</script>

@@ -1,0 +1,61 @@
+<style>
+  :root {
+    /* Fallbacks; theme-sync.js replaces these with the live tokens. */
+    --scheme1-background: #F7F5F3; --scheme1-text: #080707; --scheme1-accent: #FF5521; --scheme1-border: rgba(8,7,7,.2);
+    --scheme5-background: #ffffff;
+    --font-family-body: "Manrope", system-ui, sans-serif; --text-medium-size: 1.125rem; --text-regular-line-height: 1.5;
+    --text-weight: 400; --text-weight-strong: 500;
+    --radius-large: 8px; --border-width: 1px; --container-large: 80rem; --page-padding: 2.5rem;
+    --card-padding-large: 2rem; --spacing-3: .75rem; --spacing-5: 1.25rem;
+
+    /* Roles: sits on the hero's scheme (Scheme 1), card fill matches the white navbar (Scheme 5). */
+    --ai-ground: var(--scheme1-background);
+    --ai-fill: var(--scheme5-background);
+    --ai-text: var(--scheme1-text);
+    --ai-border: var(--scheme1-border);
+    --ai-accent: var(--scheme1-accent);
+  }
+  html, body { margin: 0; padding: 0; background: var(--ai-ground); }
+  * { box-sizing: border-box; }
+  .ai { padding: var(--spacing-5) var(--page-padding) 0; font-family: var(--font-family-body); }
+  .ai a {
+    max-width: var(--container-large); margin: 0 auto; display: flex; align-items: center; gap: var(--spacing-3);
+    padding: var(--spacing-5) var(--card-padding-large); background: var(--ai-fill); color: var(--ai-text);
+    border: var(--border-width) solid var(--ai-border); border-radius: var(--radius-large); text-decoration: none;
+    font-size: var(--text-medium-size); line-height: var(--text-regular-line-height); font-weight: var(--text-weight);
+    transition: border-color .15s ease;
+  }
+  .ai a:hover { border-color: var(--ai-accent); }
+  .ai strong { font-weight: var(--text-weight-strong); }
+  .ai .arrow { flex: none; width: 1.5rem; height: 1.5rem; color: var(--ai-accent); transition: transform .2s ease; }
+  .ai a:hover .arrow { transform: translateX(4px); }
+</style>
+
+<div class="ai">
+  <a href="/contact" target="_top">
+    <span>Need help understanding how AI can help your business? <strong>Let's chat!</strong></span>
+    <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+  </a>
+</div>
+
+<script>
+  (function () {
+    var root = document.documentElement, box = document.querySelector('.ai');
+    addEventListener('message', function (e) {
+      var d = e.data; if (!d || d.type !== 'graphyte:theme') return;
+      Object.keys(d.tokens || {}).forEach(function (k) { root.style.setProperty(k, d.tokens[k]); });
+      (d.fonts || []).forEach(function (href) {
+        if (document.querySelector('link[href="' + href + '"]')) return;
+        var l = document.createElement('link'); l.rel = 'stylesheet'; l.href = href; document.head.appendChild(l);
+      });
+      size();
+    });
+    try { parent.postMessage({ type: 'graphyte:theme-request' }, '*'); } catch (e) {}
+    var base = '';
+    try { base = new URL(document.referrer).origin + '/'; } catch (e) {}
+    if (base) Array.prototype.forEach.call(document.querySelectorAll('a[href^="/"]'), function (a) { a.href = base + a.getAttribute('href').replace(/^\//, ''); });
+    function size() { try { parent.postMessage({ type: 'relume-embed:size', height: Math.ceil(box.getBoundingClientRect().height) }, '*'); } catch (e) {} }
+    size(); addEventListener('load', size); addEventListener('resize', size);
+    if (window.ResizeObserver) new ResizeObserver(size).observe(box);
+  })();
+</script>
