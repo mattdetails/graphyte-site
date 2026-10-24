@@ -114,23 +114,32 @@
     if (base) Array.prototype.forEach.call(document.querySelectorAll('a[href^="/"]'), function (a) { a.href = base + a.getAttribute('href').replace(/^\//, ''); });
     document.getElementById('gf-year').textContent = new Date().getFullYear();
 
-    /* 3. Hex bloom, drawn from the top-right corner of the card. Same lattice as the hero and generator.
-          Fill comes from CSS (var(--gf-cell)), so it follows the tokens. */
-    function hexSVG(w, h) {
-      var cell = 30, rowH = cell * Math.sqrt(3) / 2, fullR = (cell / 2) * 0.86 / Math.cos(Math.PI / 6), diag = Math.hypot(w, h), fe = 0.72, d = 'M';
+    /* 3. Hex bloom from the top-right corner of the card. Same lattice as the hero and generator.
+          Drawn at the card's real size and scaled to its width, so a narrow phone card gets the same
+          composition as desktop (bloom across the right three quarters, smaller cells) rather than a
+          cropped close-up of the dense corner. Fill comes from CSS (var(--gf-cell)), so it follows the tokens. */
+    var hexEl = document.querySelector('.gf .card .hex'), lastW = 0, lastH = 0;
+    function drawHex() {
+      var b = hexEl.getBoundingClientRect(), w = Math.round(b.width), h = Math.round(b.height);
+      if (!w || !h || (w === lastW && h === lastH)) return;
+      lastW = w; lastH = h;
+      var cell = Math.max(14, Math.min(28, w / 46)), reach = w * 0.75;
+      var rowH = cell * Math.sqrt(3) / 2, fullR = (cell / 2) * 0.86 / Math.cos(Math.PI / 6), d = '';
       function ease(t) { t = Math.max(0, Math.min(1, t)); return t * t * (3 - 2 * t); }
       for (var j = -1; j < h / rowH + 3; j++) {
         var cy = h - j * rowH, off = j % 2 ? cell / 2 : 0;
         for (var i = -1; i < w / cell + 3; i++) {
-          var cx = i * cell + off, sc = 1 - ease(Math.hypot(w - cx, cy) / diag / fe); if (sc < 0.035) continue;
+          var cx = i * cell + off, sc = 1 - ease(Math.hypot(w - cx, cy) / reach); if (sc < 0.035) continue;
           var r = fullR * sc;
           for (var a = 0; a < 6; a++) { var t = Math.PI / 180 * (60 * a - 30); d += (a ? 'L' : 'M') + (cx + r * Math.cos(t)).toFixed(1) + ',' + (cy + r * Math.sin(t)).toFixed(1); }
           d += 'z';
         }
       }
-      return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ' + w + ' ' + h + '" preserveAspectRatio="xMaxYMin slice"><path d="' + d.replace(/^M/, '') + '"/></svg>';
+      hexEl.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ' + w + ' ' + h + '" preserveAspectRatio="none"><path d="' + d + '"/></svg>';
     }
-    document.querySelector('.gf .card .hex').innerHTML = hexSVG(1400, 520);
+    drawHex();
+    if (window.ResizeObserver) new ResizeObserver(function () { requestAnimationFrame(drawHex); }).observe(hexEl);
+    else addEventListener('resize', drawHex);
 
     /* 4. Tell Relume how tall we are, so the embed frame fits the footer exactly. */
     function size() {
