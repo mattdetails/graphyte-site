@@ -55,8 +55,9 @@
 
   @media (max-width: 760px) {
     /* Phones: normal card padding, and the heading one step down so it sits on two lines */
-    .gf .card { padding: var(--card-padding-xlarge); }
-    .gf .card h2 { font-size: var(--heading-h3-size); line-height: var(--heading-h3-line-height); }
+    /* One even gap down the card: heading, line, button */
+    .gf .card { padding: var(--card-padding-xlarge); gap: var(--spacing-5); }
+    .gf .card h2 { font-size: var(--heading-h3-size); line-height: var(--heading-h3-line-height); margin-bottom: var(--spacing-5); }
   }
 </style>
 
