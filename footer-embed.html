@@ -69,18 +69,18 @@
         <h2>Have a project in mind?</h2>
         <p>Tell us what you need and we'll take it from there.</p>
       </div>
-      <a class="btn" href="/contact" target="_top">Let's chat</a>
+      <a class="btn" href="/contact">Let's chat</a>
     </div>
 
     <nav class="links" aria-label="Footer">
-      <a href="/#sc-project-list-section-vertical" target="_top">Work</a>
-      <a href="/#9d8a5a389b694f72a06dad4222f8797b" target="_top">Services</a>
-      <a href="/#f31ca42f-d937-400e-a2cb-e48a1e64fc0a" target="_top">About</a>
-      <a href="/contact" target="_top">Contact</a>
+      <a href="/#sc-project-list-section-vertical">Work</a>
+      <a href="/#9d8a5a389b694f72a06dad4222f8797b">Services</a>
+      <a href="/#f31ca42f-d937-400e-a2cb-e48a1e64fc0a">About</a>
+      <a href="/contact">Contact</a>
     </nav>
 
     <div class="bottom">
-      <a class="logo" href="/" target="_top" aria-label="Graphyte home">
+      <a class="logo" href="/" aria-label="Graphyte home">
         <svg viewBox="0 0 656 152" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Graphyte">
           <mask id="gf-ring" fill="white"><path d="M63.3787 140.763C98.3818 140.763 126.757 112.362 126.757 77.327C126.757 42.2921 98.3818 13.8906 63.3787 13.8906C28.3756 13.8906 0 42.2921 0 77.327C0 112.362 28.3756 140.763 63.3787 140.763Z"/></mask>
           <path class="mark-ring" d="M126.757 77.327C126.757 112.362 98.3818 140.763 63.3787 140.763C28.3756 140.763 0 112.362 0 77.327C0 42.2921 28.3756 13.8906 63.3787 13.8906C98.3818 13.8906 126.757 42.2921 126.757 77.327Z" stroke-width="23.0339" mask="url(#gf-ring)"/>
@@ -115,6 +115,20 @@
     try { base = new URL(document.referrer).origin + '/'; } catch (e) {}
     if (base) Array.prototype.forEach.call(document.querySelectorAll('a[href^="/"]'), function (a) { a.href = base + a.getAttribute('href').replace(/^\//, ''); });
     document.getElementById('gf-year').textContent = new Date().getFullYear();
+
+    /* Links: Relume's embed sandbox can't navigate the page (it forces new tabs), so internal links are
+       handed to theme-sync.js in the head, which navigates the page itself. If the head script isn't
+       there (no theme ever arrived), links fall back to Relume's default behaviour. */
+    var bridged = false;
+    addEventListener('message', function (e) { if (e.data && e.data.type === 'graphyte:theme') bridged = true; });
+    document.addEventListener('click', function (e) {
+      if (!bridged || e.defaultPrevented || e.button || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      var a = e.target.closest && e.target.closest('a[href]'); if (!a) return;
+      var h = a.getAttribute('href');
+      if (!(h.charAt(0) === '/' || (base && h.indexOf(base) === 0))) return;
+      e.preventDefault();
+      try { parent.postMessage({ type: 'graphyte:navigate', href: h }, '*'); } catch (err) {}
+    });
 
     /* 3. Hex bloom from the top-right corner of the card. Same lattice as the hero and generator.
           Drawn at the card's real size and scaled to its width, so a narrow phone card gets the same

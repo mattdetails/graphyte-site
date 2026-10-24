@@ -1,12 +1,13 @@
 /*
- * Graphyte theme sync
- * Relume code embeds run in sandboxed iframes, so they can't see the site's CSS custom properties.
+ * Graphyte theme sync (and embed navigation bridge)
+ * Relume code embeds run in sandboxed iframes, so they can't see the site's CSS custom properties,
+ * and their links can't navigate the page (see navigate() below).
  * This script (in the site's head) reads every custom property the site defines on :root, plus its
  * Google Fonts links, and posts them into each embed. Embeds ask for them on load and apply them to
  * their own :root, so a custom component inherits the design system and follows any changes to it.
  *
  * Head code:
- *   <script src="https://cdn.jsdelivr.net/gh/mattdetails/graphyte-site@v1.0.5/theme-sync.js" defer></script>
+ *   <script src="https://cdn.jsdelivr.net/gh/mattdetails/graphyte-site@v1.0.6/theme-sync.js" defer></script>
  *
  * Embed side (see footer-embed.html):
  *   parent.postMessage({ type: 'graphyte:theme-request' }, '*');
@@ -53,9 +54,32 @@
 
   function schedule() { clearTimeout(timer); timer = setTimeout(sendAll, 120); }
 
-  // Embeds ask when they are ready; this is the reliable path.
+  // Navigation on behalf of embeds. Relume's embed sandbox has no allow-top-navigation and sets
+  // <base target="_blank">, so a link inside an embed can only open a new tab. Embeds post the link
+  // here instead and the page navigates itself. Same-origin only; same-page anchors scroll smoothly.
+  function navigate(href, source) {
+    var url;
+    try { url = new URL(href, location.href); } catch (e) { return; }
+    if (url.origin !== location.origin) return;
+    try { source.postMessage({ type: 'graphyte:navigate-ack' }, '*'); } catch (e) {}
+    if (url.pathname === location.pathname && url.hash) {
+      var target = document.getElementById(decodeURIComponent(url.hash.slice(1)));
+      if (target) {
+        var nav = document.querySelector('[id^="sc-navbar"], nav'), off = -((nav ? nav.getBoundingClientRect().height : 64) + 16);
+        if (window.lenis) window.lenis.scrollTo(target, { offset: off });
+        else window.scrollTo({ top: target.getBoundingClientRect().top + window.scrollY + off, behavior: 'smooth' });
+        if (history.pushState) history.pushState(null, '', url.hash);
+        return;
+      }
+    }
+    location.assign(url.href);
+  }
+
   addEventListener('message', function (e) {
-    if (e.data && e.data.type === 'graphyte:theme-request' && e.source) send(e.source);
+    var d = e.data; if (!d || !e.source) return;
+    // Embeds ask for the theme when they are ready; this is the reliable path.
+    if (d.type === 'graphyte:theme-request') send(e.source);
+    if (d.type === 'graphyte:navigate' && typeof d.href === 'string') navigate(d.href, e.source);
   });
   // Also push on viewport changes (breakpoint tokens) and when embed frames get inserted.
   addEventListener('resize', schedule);

@@ -32,7 +32,7 @@
 </style>
 
 <div class="ai">
-  <a href="/contact" target="_top">
+  <a href="/contact">
     <span>Need help understanding how AI can help your business?</span>
     <strong>Let's chat!<svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></strong>
   </a>
@@ -54,6 +54,19 @@
     var base = '';
     try { base = new URL(document.referrer).origin + '/'; } catch (e) {}
     if (base) Array.prototype.forEach.call(document.querySelectorAll('a[href^="/"]'), function (a) { a.href = base + a.getAttribute('href').replace(/^\//, ''); });
+    /* Links: Relume's embed sandbox can't navigate the page (it forces new tabs), so internal links are
+       handed to theme-sync.js in the head, which navigates the page itself. If the head script isn't
+       there (no theme ever arrived), links fall back to Relume's default behaviour. */
+    var bridged = false;
+    addEventListener('message', function (e) { if (e.data && e.data.type === 'graphyte:theme') bridged = true; });
+    document.addEventListener('click', function (e) {
+      if (!bridged || e.defaultPrevented || e.button || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      var a = e.target.closest && e.target.closest('a[href]'); if (!a) return;
+      var h = a.getAttribute('href');
+      if (!(h.charAt(0) === '/' || (base && h.indexOf(base) === 0))) return;
+      e.preventDefault();
+      try { parent.postMessage({ type: 'graphyte:navigate', href: h }, '*'); } catch (err) {}
+    });
     function size() { try { parent.postMessage({ type: 'relume-embed:size', height: Math.ceil(box.getBoundingClientRect().height) }, '*'); } catch (e) {} }
     size(); addEventListener('load', size); addEventListener('resize', size);
     if (window.ResizeObserver) new ResizeObserver(size).observe(box);
