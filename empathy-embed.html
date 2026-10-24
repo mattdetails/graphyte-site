@@ -15,14 +15,14 @@
   }
   html, body { margin: 0; padding: 0; background: var(--em-ground); }
   * { box-sizing: border-box; }
-  .em { padding: 2rem var(--page-padding) 4rem var(--page-padding); }
+  .em { padding: 1.5rem var(--page-padding); }
   .em .card {
     max-width: var(--container-large); margin: 0 auto; background: var(--em-card); border-radius: var(--radius-large);
-    padding: var(--section-padding-large) var(--card-padding-xlarge); text-align: center;
+    padding: var(--card-padding-xlarge); text-align: center;
   }
   .em h2 {
     margin: 0 auto; color: var(--em-heading);
-    font-family: var(--font-family-heading); font-size: var(--heading-h2-size); line-height: var(--heading-h2-line-height);
+    font-family: var(--font-family-heading); font-size: calc(var(--heading-h2-size) - .25rem); line-height: var(--heading-h2-line-height);
     font-weight: var(--heading-weight); letter-spacing: var(--heading-letter-spacing); text-transform: var(--heading-transform);
     text-wrap: balance;
   }
