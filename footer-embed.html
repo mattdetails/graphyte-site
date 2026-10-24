@@ -32,14 +32,14 @@
   .gf a { color: inherit; text-decoration: none; }
   .gf .wrap { max-width: var(--container-large); margin: 0 auto; }
 
-  /* The orange card, hex bloom drawn inline from the tokens */
-  .gf .card { position: relative; overflow: hidden; isolation: isolate; background: var(--gf-card); color: var(--gf-card-ink); border-radius: var(--radius-large); padding: calc(var(--card-padding-xlarge) * 2) var(--card-padding-xlarge); display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: var(--spacing-8); align-items: center; }
+  /* The orange card, content centred, hex bloom drawn inline from the tokens */
+  .gf .card { position: relative; overflow: hidden; isolation: isolate; background: var(--gf-card); color: var(--gf-card-ink); border-radius: var(--radius-large); padding: calc(var(--card-padding-xlarge) * 2) var(--card-padding-xlarge); display: grid; grid-template-columns: minmax(0, 1fr); justify-items: center; text-align: center; gap: var(--spacing-8); align-items: center; }
   .gf .card .hex { position: absolute; inset: 0; z-index: -1; pointer-events: none; }
   .gf .card .hex svg { width: 100%; height: 100%; display: block; }
   .gf .card .hex path { fill: var(--gf-cell); }
-  .gf .card h2 { font-family: var(--font-family-heading); font-size: var(--heading-h2-size); line-height: var(--heading-h2-line-height); font-weight: var(--heading-weight); letter-spacing: var(--heading-letter-spacing); text-transform: var(--heading-transform); color: var(--gf-card-ink); margin: 0 0 var(--gap-element-small); max-width: 16ch; text-wrap: balance; }
-  .gf .card p { margin: 0; font-size: var(--text-medium-size); max-width: 42ch; }
-  .gf .btn { display: inline-block; background: var(--gf-bg); color: var(--gf-heading); border: var(--button-border-width) solid var(--gf-bg); font-family: var(--button-font); font-size: var(--button-font-size); font-weight: var(--button-weight); text-transform: var(--button-transform); letter-spacing: var(--button-letter-spacing); padding: var(--button-padding-vertical) var(--button-padding-horizontal); border-radius: var(--button-radius); white-space: nowrap; transition: opacity .15s ease; }
+  .gf .card h2 { font-family: var(--font-family-heading); font-size: var(--heading-h2-size); line-height: var(--heading-h2-line-height); font-weight: var(--heading-weight); letter-spacing: var(--heading-letter-spacing); text-transform: var(--heading-transform); color: var(--gf-card-ink); margin: 0 auto var(--gap-element-small); max-width: 16ch; text-wrap: balance; }
+  .gf .card p { margin: 0 auto; font-size: var(--text-medium-size); max-width: 42ch; }
+  .gf .btn { display: inline-block; background: var(--gf-bg); color: var(--gf-heading); border: var(--button-border-width) solid var(--gf-bg); font-family: var(--button-font); font-size: var(--button-font-size); font-weight: var(--button-weight); text-transform: var(--button-transform); letter-spacing: var(--button-letter-spacing); padding: var(--button-padding-vertical) var(--button-padding-horizontal); border-radius: var(--button-radius); white-space: nowrap; justify-self: center; transition: opacity .15s ease; }
   .gf .btn:hover { opacity: .85; }
 
   /* Links: one centred row under the card */
@@ -47,17 +47,16 @@
   .gf .links a { color: var(--gf-text); font-weight: var(--text-weight-strong); transition: color .15s ease; }
   .gf .links a:hover { color: var(--gf-heading); }
 
-  /* Bottom row */
-  .gf .bottom { display: flex; justify-content: space-between; align-items: center; gap: var(--gap-element-horizontal-medium); flex-wrap: wrap; margin-top: var(--spacing-10); padding-top: var(--spacing-5); border-top: var(--divider-width) solid var(--gf-border); font-size: var(--text-small-size); }
+  /* Bottom: logo stacked over the copyright, centred */
+  .gf .bottom { display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; gap: var(--spacing-3); margin-top: var(--spacing-10); padding-top: var(--spacing-5); border-top: var(--divider-width) solid var(--gf-border); font-size: var(--text-small-size); }
   .gf .logo svg { height: 30px; width: auto; display: block; }
   .gf .logo .mark-ring { stroke: var(--gf-card); }
   .gf .logo .mark-fill { fill: var(--gf-heading); }
 
   @media (max-width: 760px) {
     /* Phones: normal card padding, and the heading one step down so it sits on two lines */
-    .gf .card { grid-template-columns: 1fr; padding: var(--card-padding-xlarge); }
+    .gf .card { padding: var(--card-padding-xlarge); }
     .gf .card h2 { font-size: var(--heading-h3-size); line-height: var(--heading-h3-line-height); }
-    .gf .bottom { justify-content: center; text-align: center; }
   }
 </style>
 
