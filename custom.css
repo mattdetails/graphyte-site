@@ -1,9 +1,4 @@
 /* Graphyte: Relume custom CSS. Paste the whole file. */
 
-/* Hero hex bloom: bottom-right when the hero stacks (tablet and phone) */
-@media (max-width: 991px) {
-  .section-edge .media-fill img.media {
-    object-position: top right !important;
-    transform: scaleY(-1);
-  }
-}
+/* (Empty for now.) The hero hex bloom grows from the right-centre and the hero image is set to
+   Center Right in Relume, so the old tablet/phone flip and top-right crop are no longer needed. */
