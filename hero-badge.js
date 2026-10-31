@@ -13,7 +13,7 @@
  *   </a></div></div> <h1>…</h1> </div>
  *
  * Head code:
- *   <script src="https://cdn.jsdelivr.net/gh/mattdetails/graphyte-site@v1.0.7/hero-badge.js" defer></script>
+ *   <script src="https://cdn.jsdelivr.net/gh/mattdetails/graphyte-site@v1.0.8/hero-badge.js" defer></script>
  */
 (function () {
   function build() {

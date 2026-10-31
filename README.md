@@ -39,3 +39,10 @@ tokens.
 Announcement Banner) for the design system's Badge (modern, dot, success). The banner stays in Relume as the
 anchor: the badge takes its message text and link, so edit those in Relume. The CSS hides the banner before
 first paint, so if the script fails to load the hero shows no eyebrow rather than the old banner.
+
+## Logo tooltips
+
+`logo-tooltips.js` (head) names each logo in the home page's "Tools I build with" row, as a hover tooltip
+(styled in `custom.css` to match the design system's Tooltip) and as alt text. Relume's logo list has no
+name field, so the names are in the script, keyed by each logo's asset id. Reordering is safe; a new or
+replaced logo needs its id and name added there.

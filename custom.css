@@ -3,6 +3,20 @@
 /* The hero hex bloom grows from the right-centre and the hero image is set to Center Right in Relume,
    so the old tablet/phone flip and top-right crop are no longer needed. */
 
+/* Home hero primary button: brand orange (Primary 400) instead of the scheme's darker fill.
+   Scoped to the backdrop hero, not .section-100vh, so it survives changing the hero's Section Height. */
+section:has(> .backdrop-media-wrapper) .button:not(.button-secondary):not(.button-link) {
+  --button-fill: var(--color-color1-400, #FF5521) !important;
+  --button-border: var(--color-color1-400, #FF5521) !important;
+}
+
+/* Home hero paragraph: Relume caps body copy at 35rem, which left "vendor." alone on its own line.
+   Let it run to the heading's width, and keep a word from dangling on narrower screens. */
+section:has(> .backdrop-media-wrapper) .body-max-width {
+  max-width: var(--heading-max-width, 48rem);
+  text-wrap: pretty;
+}
+
 /* Hero badge (hero-badge.js). Figma: Badge / Size=sm, Type=Badge modern, Icon=Dot, Color=Success.
    The Relume announcement banner's row is hidden before first paint; the script puts the badge in its
    place using the banner's message (and link, if it has one). */
@@ -45,4 +59,55 @@ a.gr-badge:focus-visible { outline: 2px solid #FF5521; outline-offset: 2px; }
   margin: 1px;
   border-radius: 50%;
   background: var(--gr-badge-dot);
+  animation: gr-badge-pulse 2s ease-in-out infinite;
+}
+@keyframes gr-badge-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: .25; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .gr-badge__dot { animation: none; }
+}
+
+/* Logo tooltips (logo-tooltips.js). Figma: Tooltip / Supporting text=False, Arrow=Bottom center.
+   The script names each logo in "Tools I build with"; the tooltip sits above it on hover. */
+.customer-logo-wrapper[data-gr-tooltip] { position: relative; }
+.customer-logo-wrapper[data-gr-tooltip]::before,
+.customer-logo-wrapper[data-gr-tooltip]::after {
+  position: absolute;
+  left: 50%;
+  z-index: 10;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity .15s ease, transform .15s ease;
+}
+.customer-logo-wrapper[data-gr-tooltip]::after {      /* bubble */
+  content: attr(data-gr-tooltip);
+  bottom: calc(100% + 10px);
+  transform: translate(-50%, 4px);
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: #120502;                                /* bg-primary-solid */
+  box-shadow: 0 12px 16px -4px rgba(0, 0, 0, .08), 0 4px 6px -2px rgba(0, 0, 0, .03), 0 2px 2px -1px rgba(0, 0, 0, .04);
+  color: #FFFFFF;
+  font-family: var(--font-family-body, "Manrope", system-ui, sans-serif);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 18px;
+  white-space: nowrap;
+}
+.customer-logo-wrapper[data-gr-tooltip]::before {     /* arrow */
+  content: "";
+  bottom: calc(100% + 6px);
+  width: 10px;
+  height: 10px;
+  border-radius: 1px;
+  background: #120502;
+  transform: translate(-50%, 4px) rotate(45deg);
+}
+.customer-logo-wrapper[data-gr-tooltip]:hover::after { opacity: 1; transform: translate(-50%, 0); }
+.customer-logo-wrapper[data-gr-tooltip]:hover::before { opacity: 1; transform: translate(-50%, 0) rotate(45deg); }
+@media (prefers-reduced-motion: reduce) {
+  .customer-logo-wrapper[data-gr-tooltip]::before,
+  .customer-logo-wrapper[data-gr-tooltip]::after { transition: none; }
 }
