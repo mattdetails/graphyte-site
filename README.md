@@ -32,3 +32,10 @@ the page. Embeds run in a sandboxed iframe, so `theme-sync.js` (loaded from the 
 custom properties and font links into every embed, and the footer applies them to its own `:root`. Change
 the design system in Relume and the footer follows. The hex bloom is drawn inside the embed from the same
 tokens.
+
+## Hero badge
+
+`hero-badge.js` (head) and the "Hero badge" block in `custom.css` swap the home hero's eyebrow (Relume's
+Announcement Banner) for the design system's Badge (modern, dot, success). The banner stays in Relume as the
+anchor: the badge takes its message text and link, so edit those in Relume. The CSS hides the banner before
+first paint, so if the script fails to load the hero shows no eyebrow rather than the old banner.
