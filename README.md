@@ -52,7 +52,7 @@ replaced logo needs its id and name added there.
 `page-transition.js` (head), the "Page transition" block in `custom.css`, and one inline line at the top of
 `head-code.html`. Clicking a link to another page on the site ripples brand hexes in from the click point
 until the screen is covered, then navigates; the new page starts covered and the hexes ripple back out.
-About 440ms each way (`STAGGER` + `GROW` in the file).
+About 580ms each way (`STAGGER` + `GROW` in the file); the reveal sweeps down from the top. Hex size is `CELL`.
 
 - The inline line has to stay inline and first in the head code. It's what makes the new page start covered
   before its first paint; without it the page flashes before the hexes arrive.

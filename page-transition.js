@@ -22,15 +22,18 @@
   var root = document.documentElement;
   var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  var STAGGER = 260;    // ms from the first hex to the last
-  var GROW = 180;       // ms each hex takes to grow or shrink. Total each way: STAGGER + GROW = 440ms.
+  // Matt's settings, tuned on the prototype 2026-11-12.
+  var STAGGER = 520;    // ms from the first hex to the last
+  var GROW = 60;        // ms each hex takes to grow or shrink. Total each way: STAGGER + GROW = 580ms.
+  var CELL = 88;        // px, width of one hex
+  var ROUGH = 0;        // 0 = smooth circular wave front; 0.08 = slightly ragged
   var SHADES = 8;       // colour steps from edge to cover; one canvas fill per step
-  var KEY = 'gt-at', KEY_X = 'gt-x', KEY_Y = 'gt-y';
+  var KEY = 'gt-at';
   var FILE = /\.(pdf|zip|png|jpe?g|gif|webp|avif|svg|mp4|mov|webm|mp3|csv|docx?|xlsx?|pptx?)$/i;
 
   function store(k, v) { try { if (v == null) sessionStorage.removeItem(k); else sessionStorage.setItem(k, v); } catch (e) {} }
   function read(k) { try { return sessionStorage.getItem(k); } catch (e) { return null; } }
-  function clearStore() { store(KEY, null); store(KEY_X, null); store(KEY_Y, null); }
+  function clearStore() { store(KEY, null); }
 
   function colour(name, fallback) {
     var v = getComputedStyle(root).getPropertyValue(name).trim();
@@ -60,8 +63,8 @@
     canvas.width = Math.round(W * dpr); canvas.height = Math.round(H * dpr);
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
-    cover = rgb(colour('--gt-cover', colour('--scheme3-background', '#080707')));
-    edge = rgb(colour('--gt-edge', colour('--color-color1-400', '#FF5521')));
+    cover = rgb(colour('--gt-cover', '#F6EFE4'));
+    edge = rgb(colour('--gt-edge', '#FFFFFF'));
     shades = [];
     for (var s = 0; s < SHADES; s++) {
       var k = s / (SHADES - 1);
@@ -69,8 +72,7 @@
     }
 
     // Pointy-top hexes in offset rows, the same lattice as the hero and footer.
-    // Cell width scales with the screen so a phone and a wide monitor get a similar count across.
-    var cell = Math.max(34, Math.min(64, W / 26));
+    var cell = CELL;
     var R = cell / Math.sqrt(3);          // circumradius that tiles exactly
     var rowH = R * 1.5;
     cells = [];
@@ -78,9 +80,9 @@
       var off = (j & 1) ? cell / 2 : 0;
       for (var i = -1; i * cell < W + cell; i++) {
         var cx = i * cell + off, cy = j * rowH;
-        // A little fixed jitter so the wave front isn't a perfect circle.
+        // Fixed per-hex jitter (scaled by ROUGH) so the wave front can be less than a perfect circle.
         var n = Math.sin(i * 12.9898 + j * 78.233) * 43758.5453;
-        cells.push({ x: cx, y: cy, j: (n - Math.floor(n)) * 0.08 });
+        cells.push({ x: cx, y: cy, j: (n - Math.floor(n)) * ROUGH });
       }
     }
     setup.R = R * 1.06;                   // slight overlap at full size, so no hairline seams show
@@ -104,7 +106,7 @@
     for (var s = 0; s < SHADES; s++) paths.push(null);
     for (var c = 0; c < cells.length; c++) {
       var h = cells[c];
-      var delay = (Math.hypot(h.x - ox, h.y - oy) / maxD + h.j) / 1.08 * STAGGER;
+      var delay = (Math.hypot(h.x - ox, h.y - oy) / maxD + h.j) / (1 + ROUGH) * STAGGER;
       var t = Math.max(0, Math.min(1, (elapsed - delay) / GROW));
       if (t < 1) done = false;
       var p = dir > 0 ? ease(t) : 1 - ease(t);   // p = how "full" this hex is
@@ -169,7 +171,6 @@
     root.classList.add('gt-busy');
     run(1, x, y, function () {
       store(KEY, String(Date.now()));
-      store(KEY_X, String(x / W)); store(KEY_Y, String(y / H));
       location.assign(href);
       // If the navigation never happens (cancelled, download, server error page that didn't load),
       // don't leave the visitor staring at a covered screen.
@@ -250,7 +251,6 @@
   function arrive() {
     if (!root.classList.contains('gt-in')) { clearStore(); return; }
     var at = +read(KEY) || 0;
-    var x = parseFloat(read(KEY_X)), y = parseFloat(read(KEY_Y));
     clearStore();
     // The CSS cover gives up on its own after 2.5s (in case this script never loads). If we're
     // already past that, the page is showing; don't flash the cover back over it.
@@ -258,7 +258,8 @@
     setup();
     full();                                  // canvas takes over from the CSS cover, same colour
     root.classList.remove('gt-in');
-    var ox = (isFinite(x) ? x : 0.5) * W, oy = (isFinite(y) ? y : 0.5) * H;
+    // The reveal sweeps down from the top centre, wherever the click was.
+    var ox = W / 2, oy = 0;
     // Give web fonts a moment so text doesn't reflow just as it's revealed, but never wait long.
     var go = function () { if (go.ran) return; go.ran = 1; run(-1, ox, oy, teardown); };
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(go);
