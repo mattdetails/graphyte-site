@@ -111,3 +111,19 @@ a.gr-badge:focus-visible { outline: 2px solid #FF5521; outline-offset: 2px; }
   .customer-logo-wrapper[data-gr-tooltip]::before,
   .customer-logo-wrapper[data-gr-tooltip]::after { transition: none; }
 }
+
+/* Page transition (page-transition.js). A page reached through the hex transition starts covered:
+   the inline line in the head code adds html.gt-in before first paint, this paints the cover, and the
+   script takes over and ripples the hexes out. If the script never loads, the cover lifts by itself
+   after 2.5s. --gt-cover is the covered screen, --gt-edge the leading edge of the wave. */
+:root { --gt-cover: #080707; --gt-edge: #FF5521; }
+html.gt-in::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 2147483647;
+  background: var(--gt-cover);
+  animation: gt-lift 0s linear 2.5s forwards;
+}
+@keyframes gt-lift { to { visibility: hidden; } }
+html.gt-busy { cursor: progress; }

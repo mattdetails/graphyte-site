@@ -72,7 +72,8 @@
         return;
       }
     }
-    location.assign(url.href);
+    // page-transition.js, when it's loaded, covers the screen with the hex wave first.
+    if (!(window.graphyteTransition && window.graphyteTransition(url.href))) location.assign(url.href);
   }
 
   addEventListener('message', function (e) {
