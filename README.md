@@ -9,10 +9,10 @@ Smooth scrolling with [Lenis](https://github.com/darkroomengineering/lenis). Res
 Add to the site's custom head code:
 
 ```html
-<script src="https://cdn.jsdelivr.net/gh/mattdetails/graphyte-site@v1.0.3/smooth-scroll.js" defer></script>
+<script src="https://cdn.jsdelivr.net/gh/mattdetails/graphyte-site@main/smooth-scroll.js" defer></script>
 ```
 
-Pin to a tag, not `main`, so the live site doesn't change when the repo does. After a change: bump the tag, push it, update the tag in the script tag.
+Everything loads from `@main` (decided 2026-11-12, so changes ship without pasting into Relume). After a change: push to main, then purge each changed file, e.g. `curl https://purge.jsdelivr.net/gh/mattdetails/graphyte-site@main/custom.css`. A push is a release: check it before pushing, and roll back with `git revert`.
 
 Tuning: `duration` in the file controls the feel. 1.1 is gentle. Try 0.8 for snappier, 1.4 for floatier.
 
@@ -20,8 +20,8 @@ Known interaction: the home hero has its own scroll animation ("sticky content")
 
 ## Head code
 
-`head-code.html` is the script block for Relume's Site settings → Custom code → Head, and `custom.css` is the
-site's custom CSS. Edit them here, then paste each whole file into its field in Relume. Code embed
+`head-code.html` is the block for Relume's Site settings → Custom code → Head. It loads `custom.css` and the
+scripts from jsDelivr, so it only needs pasting again if a file is added or removed. Code embed
 sections run in a sandboxed iframe, so anything that has to touch the page (CSS, page-level JS) goes in the
 head, not an embed.
 

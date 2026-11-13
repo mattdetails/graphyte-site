@@ -1,4 +1,4 @@
-/* Graphyte: Relume custom CSS. Paste the whole file. */
+/* Graphyte: site CSS. Loaded from jsDelivr (@main) by head-code.html; edit here, push, purge. */
 
 /* The hero hex bloom grows from the right-centre and the hero image is set to Center Right in Relume,
    so the old tablet/phone flip and top-right crop are no longer needed. */
@@ -137,8 +137,3 @@ html.gt-busy { cursor: progress; }
   width: auto; height: auto; max-width: 100%;
   max-height: calc(100dvh - 2 * var(--page-padding, 1.5rem));
 }
-
-/* Navbar underline: hover only. The nav component also drew it while the mega menu was open and while the
-   clicked button kept focus, so it stuck around. Keyboard focus (focus-visible) still shows it. */
-[class*="-navline"] { --ws-nav-open: 0 !important; }
-[class*="-navline"]:focus-within:not(:hover):not(:focus-visible):not(:has(:focus-visible)) { --ws-nav-hover: 0; }

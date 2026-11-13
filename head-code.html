@@ -1,8 +1,10 @@
-<!-- Graphyte: Relume > Site settings > Custom code > Head. Scripts only; CSS lives in custom.css. -->
+<!-- Graphyte: Relume > Site settings > Custom code > Head. Everything loads from @main on jsDelivr, so a push
+     (plus a jsDelivr purge) goes live without touching Relume. CSS first: it hides things before first paint. -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/mattdetails/graphyte-site@main/custom.css">
 <!-- Page transition: must stay inline and come first, so a page reached through the hex transition starts covered. -->
 <script>try{var t=+sessionStorage.getItem('gt-at');if(t&&Date.now()-t<4000&&!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('gt-in')}catch(e){}</script>
-<script src="https://cdn.jsdelivr.net/gh/mattdetails/graphyte-site@v1.0.9/page-transition.js" defer></script>
-<script src="https://cdn.jsdelivr.net/gh/mattdetails/graphyte-site@v1.0.9/smooth-scroll.js" defer></script>
-<script src="https://cdn.jsdelivr.net/gh/mattdetails/graphyte-site@v1.0.9/theme-sync.js" defer></script>
-<script src="https://cdn.jsdelivr.net/gh/mattdetails/graphyte-site@v1.0.9/hero-badge.js" defer></script>
-<script src="https://cdn.jsdelivr.net/gh/mattdetails/graphyte-site@v1.0.9/logo-tooltips.js" defer></script>
+<script src="https://cdn.jsdelivr.net/gh/mattdetails/graphyte-site@main/page-transition.js" defer></script>
+<script src="https://cdn.jsdelivr.net/gh/mattdetails/graphyte-site@main/smooth-scroll.js" defer></script>
+<script src="https://cdn.jsdelivr.net/gh/mattdetails/graphyte-site@main/theme-sync.js" defer></script>
+<script src="https://cdn.jsdelivr.net/gh/mattdetails/graphyte-site@main/hero-badge.js" defer></script>
+<script src="https://cdn.jsdelivr.net/gh/mattdetails/graphyte-site@main/logo-tooltips.js" defer></script>
