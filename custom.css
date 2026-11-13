@@ -137,3 +137,24 @@ html.gt-busy { cursor: progress; }
   width: auto; height: auto; max-width: 100%;
   max-height: calc(100dvh - 2 * var(--page-padding, 1.5rem));
 }
+
+/* Phones: dock the floating navbar to the top edge. Floating 20px down left a strip where the hex
+   pattern and, once scrolled, page text showed above the bar. The open menu docks under it too. */
+@media (max-width: 767px) {
+  nav.navbar-floating.navbar-floating {
+    --ws-nav-inset: 0px;
+    top: 0;
+    left: 0;
+    right: 0;
+    border-radius: 0;
+    padding-top: env(safe-area-inset-top, 0px);
+  }
+  nav.navbar-floating.navbar-floating .nav-menu-floating.nav-menu-floating {
+    margin-top: 0;
+    left: 0;
+    right: 0;
+    border-radius: 0;
+    border-left-width: 0;
+    border-right-width: 0;
+  }
+}
