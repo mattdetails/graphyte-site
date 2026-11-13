@@ -116,7 +116,7 @@ a.gr-badge:focus-visible { outline: 2px solid #FF5521; outline-offset: 2px; }
    the inline line in the head code adds html.gt-in before first paint, this paints the cover, and the
    script takes over and ripples the hexes out. If the script never loads, the cover lifts by itself
    after 2.5s. --gt-cover is the covered screen, --gt-edge the leading edge of the wave. */
-:root { --gt-cover: #F6EFE4; --gt-edge: #FFFFFF; }  /* Sand 100, white */
+:root { --gt-cover: #F6EFE4; --gt-edge: #E4DAC5; }  /* Sand 100, Sand 200 */
 html.gt-in::after {
   content: "";
   position: fixed;

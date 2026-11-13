@@ -23,8 +23,8 @@
   var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   // Matt's settings, tuned on the prototype 2026-11-12.
-  var STAGGER = 520;    // ms from the first hex to the last
-  var GROW = 60;        // ms each hex takes to grow or shrink. Total each way: STAGGER + GROW = 580ms.
+  var STAGGER = 170;    // ms from the first hex to the last (ripple spread)
+  var GROW = 320;       // ms each hex takes to grow or shrink. Total each way: STAGGER + GROW = 490ms.
   var CELL = 88;        // px, width of one hex
   var ROUGH = 0;        // 0 = smooth circular wave front; 0.08 = slightly ragged
   var SHADES = 8;       // colour steps from edge to cover; one canvas fill per step
