@@ -1,10 +1,7 @@
 <!-- Graphyte: Relume > Site settings > Custom code > Head. Everything loads from @main on jsDelivr, so a push
-     (plus a jsDelivr purge) goes live without touching Relume. CSS first: it hides things before first paint. -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/mattdetails/graphyte-site@main/custom.css">
-<!-- Page transition: must stay inline and come first, so a page reached through the hex transition starts covered. -->
+     (plus a jsDelivr purge) goes live without touching Relume. jsDelivr tells browsers to keep @main files for
+     7 days, so the loader adds ?v=<current hour>: a returning visitor picks up a change within the hour.
+     CSS first: it hides things before first paint. To add or remove a script, edit the list below. -->
+<script>(function(v){var b='https://cdn.jsdelivr.net/gh/mattdetails/graphyte-site@main/';document.write('<link rel="stylesheet" href="'+b+'custom.css?v='+v+'">');['page-transition','smooth-scroll','theme-sync','hero-badge','logo-tooltips'].forEach(function(f){document.write('<script src="'+b+f+'.js?v='+v+'" defer><\/script>')})})(Math.floor(Date.now()/36e5))</script>
+<!-- Page transition: must stay inline, so a page reached through the hex transition starts covered. -->
 <script>try{var t=+sessionStorage.getItem('gt-at');if(t&&Date.now()-t<4000&&!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('gt-in')}catch(e){}</script>
-<script src="https://cdn.jsdelivr.net/gh/mattdetails/graphyte-site@main/page-transition.js" defer></script>
-<script src="https://cdn.jsdelivr.net/gh/mattdetails/graphyte-site@main/smooth-scroll.js" defer></script>
-<script src="https://cdn.jsdelivr.net/gh/mattdetails/graphyte-site@main/theme-sync.js" defer></script>
-<script src="https://cdn.jsdelivr.net/gh/mattdetails/graphyte-site@main/hero-badge.js" defer></script>
-<script src="https://cdn.jsdelivr.net/gh/mattdetails/graphyte-site@main/logo-tooltips.js" defer></script>

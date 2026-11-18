@@ -21,7 +21,9 @@ Known interaction: the home hero has its own scroll animation ("sticky content")
 ## Head code
 
 `head-code.html` is the block for Relume's Site settings → Custom code → Head. It loads `custom.css` and the
-scripts from jsDelivr, so it only needs pasting again if a file is added or removed. Code embed
+scripts from jsDelivr, so it only needs pasting again if a file is added or removed. jsDelivr tells browsers
+to cache `@main` files for 7 days and a purge only clears the CDN, so the loader appends `?v=<current hour>`:
+returning visitors get a change within an hour of the push and purge. Code embed
 sections run in a sandboxed iframe, so anything that has to touch the page (CSS, page-level JS) goes in the
 head, not an embed.
 
