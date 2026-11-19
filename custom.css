@@ -10,6 +10,13 @@ section:has(> .backdrop-media-wrapper) .button:not(.button-secondary):not(.butto
   --button-border: var(--color-color1-400, #FF5521) !important;
 }
 
+/* Home hero on phones: 100px more room above the content than Relume's section padding gives it. */
+@media (max-width: 767px) {
+  section:has(> .backdrop-media-wrapper) {
+    padding-top: calc(var(--section-padding-large) + var(--navbar-offset, 0rem) + 100px);
+  }
+}
+
 /* Home hero paragraph: Relume caps body copy at 35rem, which left "vendor." alone on its own line.
    Let it run to the heading's width, and keep a word from dangling on narrower screens. */
 section:has(> .backdrop-media-wrapper) .body-max-width {
