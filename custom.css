@@ -159,6 +159,21 @@ html.gt-busy { cursor: progress; }
   }
 }
 
-/* Navbar links: no tinted background on hover or while a dropdown is open. Relume's hover style adds a
-   6% heading-colour fill; the underline (drawn by the navline wrapper) is the only hover cue we want. */
+/* Navbar links: no tinted background on hover or while a dropdown is open (Relume's hover style adds a
+   6% heading-colour fill). */
 nav .nav-link.nav-link { background-color: transparent !important; }
+
+/* Desktop navbar links: muted by default, high contrast on hover, focus or while the Services dropdown
+   is open. Replaces the accent underline the navline wrapper drew (Figma: Navbar, node 22228:979). */
+@media (min-width: 992px) {
+  nav [class*="-navline"] { background-image: none !important; }
+  nav [class*="-navline"] > .nav-link,
+  nav .nav-link[class*="-navline"] { color: var(--color-neutral-500); transition: color .2s ease; }
+  /* The Services label carries .scheme-heading, which would pin it to the heading colour. */
+  nav .nav-link[class*="-navline"] .scheme-heading { color: inherit; }
+  nav [class*="-navline"] > .nav-link:hover,
+  nav [class*="-navline"] > .nav-link:focus-visible,
+  nav .nav-link[class*="-navline"]:hover,
+  nav .nav-link[class*="-navline"]:focus-visible,
+  nav .nav-link[class*="-navline"][aria-expanded="true"] { color: var(--color-neutral-800); }
+}
